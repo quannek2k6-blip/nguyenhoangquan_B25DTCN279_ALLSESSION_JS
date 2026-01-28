@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Phiếu nhập kho</title>
+</head>
+<body>
+
+<script>
+    let tenSach = prompt("Nhập tên sách:");
+    let tacGia = prompt("Nhập tên tác giả:");
+    let namXuatBan = prompt("Nhập năm xuất bản:");
+    let giaTien = prompt("Nhập giá tiền một cuốn:");
+    let soLuong = prompt("Nhập số lượng nhập kho:");
+
+    tenSach = tenSach.trim().toUpperCase();
+    tacGia = tacGia.toUpperCase();
+
+    namXuatBan = Number(namXuatBan);
+    giaTien = Number(giaTien);
+    soLuong = Number(soLuong);
+
+    let maTacGia = tacGia.replaceAll(" ", "").substring(0, 3);
+    let soNgauNhien = Math.floor(Math.random() * 1000) + 1;
+    let maSach = maTacGia + namXuatBan + "-" + soNgauNhien;
+
+    let tuoiSach = 2026 - namXuatBan;
+    let tongGiaTri = giaTien * soLuong;
+
+    let keSo = Math.floor(Math.random() * 10) + 1;
+
+    console.log(`--- PHIẾU NHẬP KHO ---
+
+Mã sách: ${maSach}
+
+Tên sách: ${tenSach}
+
+Tác giả: ${tacGia}
+
+Năm xuất bản: ${namXuatBan}
+
+Tuổi sách: ${tuoiSach} năm
+
+Tổng giá trị: ${tongGiaTri} VNĐ
+
+Ngăn kệ gợi ý: Kệ số ${keSo}
+`);
+</script>
+
+</body>
+</html>
