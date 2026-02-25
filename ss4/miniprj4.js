@@ -50,14 +50,25 @@ if (!isLogin) {
                 break;
             }
             case "2": {
-                let rows = Number(prompt("Nhập số Hàng:"));
-                let cols = Number(prompt("Nhập số Cột:"));
-                for (let i = 1; i <= rows; i++) {
-                    for (let j = 1; j <= cols; j++) {
-                        if (i === j) console.log(`[${i}-${j}] (Kệ ưu tiên)`);
-                        else console.log(`[${i}-${j}]`);
-                    }
-                }
+                function warehouseMapping() {
+    let rows = parseInt(prompt("Nhập số hàng:"));
+    let cols = parseInt(prompt("Nhập số cột:"));
+    if (isNaN(rows) || isNaN(cols) || rows <= 0 || cols <= 0) {
+        alert("Dữ liệu không hợp lệ!");
+        return;
+    }
+    for (let i = 1; i <= rows; i++) {
+        let line = "";
+        for (let j = 1; j <= cols; j++) {
+            if (i === j) {
+                line += `[${i}-${j}](Kệ ưu tiên) `;
+            } else {
+                line += `[${i}-${j}] `;
+            }
+        }
+        console.log(line);
+    }
+}
                 break;
             }
             case "3": {
@@ -99,3 +110,4 @@ if (!isLogin) {
         }
     } while (choice !== "5");
 }
+
