@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #faf3e6;
+      }
+      .container {
+        background-color: white;
+        width: 50%;
+        margin: auto;
+        margin-top: 100px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .container_head {
+        background-color: #d43030;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container_head p {
+        font-size: 12px;
+        margin-top: 10px;
+      }
+      ul {
+        margin: 20px;
+      }
+      li {
+        background-color: #fff8e2;
+        margin: 5px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-left: solid #ec850e;
+      }
+      li:hover {
+        transform: translate(10px);
+        transition: all 0.2s;
+      }
+      .container_footer {
+        padding: 20px;
+        border-top: 1px solid rgba(128, 128, 128, 0.25);
+        font-size: x-small;
+        color: gray;
+        text-align: center;
+      }
+      .check {
+        border-left-color: rgb(12, 165, 12);
+        background-color: rgb(206, 236, 206);
+        text-decoration: line-through;
+      }
+      .container_search {
+        background-color: #fff8e2;
+        padding: 20px;
+        display: flex;
+        gap: 10px;
+      }
+      .container_search input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 5px;
+      }
+      .container_search input:focus {
+        border: 1px solid #ec850e;
+        outline: none;
+      }
+      .btn-add {
+        background-color: #ec850e;
+        color: white;
+        padding: 10px 20px;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 5px;
+      }
+      .btn-add:hover {
+        transform: scale(1.1);
+        margin: 0 5px;
+        transition: all 0.2s;
+      }
+      .btn-clear {
+        background-color: #ec0e0e;
+        color: white;
+        padding: 10px 20px;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 5px;
+      }
+      .btn-clear:hover {
+        transform: scale(1.1);
+        margin: 0 5px;
+        transition: all 0.2s;
+      }
+      #edit {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      #updateTask {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        border-radius: 5px;
+        display: none;
+      }
+      #updateTask:focus {
+        border: 1px solid rgb(12, 165, 12);
+        outline: none;
+      }
+      .updating {
+        background-color: #fff0c3;
+      }
+      .updating #task {
+        display: none;
+      }
+      .updating #updateTask {
+        display: block;
+      }
+      .check.updating #updateTask {
+        text-decoration: none;
+      }
+      .item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .statistics {
+        text-align: center;
+        background-color: #fff8e2;
+        padding: 20px;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <div class="container_head">
+          <h2>Chuẩn bị Tết Nguyên Đán</h2>
+          <p>Danh sách việc cần làm</p>
+        </div>
+        <div class="statistics"></div>
+        <div class="container_search">
+          <input
+            id="addTask"
+            type="text"
+            placeholder="Nhập công việc mới..."
+          /><button class="btn-add" onclick="addTask()">Thêm</button>
+          <button class="btn-clear" onclick="clearTask()">Xóa tất cả</button>
+        </div>
+        <div class="container_main">
+          <ul class="list">
+            <!-- <li>
+              <span>🌸 Mua bánh chưng</span><span class="done">Chưa làm</span>
+            </li>
+            <li>
+              <span>🌸 Dọn nhà đón Tết</span><span class="done">Chưa làm</span>
+            </li>
+            <li>
+              <span>🌸 Gói bánh chưng</span><span class="done">Chưa làm</span>
+            </li>
+            <li>
+              <span>🌸 Trang trí nhà cửa</span
+              ><span class="done">Chưa làm</span>
+            </li> -->
+          </ul>
+        </div>
+        <div class="container_footer">
+          Mọi thay đổi(thêm / đánh dấu) được lưu tự động vào localStorage •
+          Refresh trang để kiểm tra
+        </div>
+      </div>
+    </main>
+    <script>
+      let todos = [
+        // { id: 1, task: "Mua bánh Chưng", done: false },
+        // { id: 2, task: "Dọn nhà đón Tết", done: false },
+        // { id: 3, task: "Gói bánh Chưng", done: false },
+        // { id: 4, task: "Trang trí nhà cửa", done: false },
+      ];
+
+      let initialTodos = [
+        { id: 1, task: "Mua bánh Chưng", done: false },
+        { id: 2, task: "Dọn nhà đón Tết", done: false },
+        { id: 3, task: "Gói bánh Chưng", done: false },
+        { id: 4, task: "Trang trí nhà cửa bằng hoa mai, hoa đào", done: false },
+        { id: 5, task: "Mua phong bao lì xì", done: false },
+        { id: 6, task: "Chuẩn bị mâm ngũ quả", done: false },
+      ];
+
+      function renderStatistics() {
+        document.querySelector(".statistics").innerHTML =
+          `<p>Tổng công việc: ${todos.length} | Đã hoàn thành: ${todos.filter((item) => item.done).length} (${ todos.length === 0 ? 0 : ((todos.filter((item) => item.done).length / todos.length) * 100).toFixed(1)}%)</p>`;
+      }
+
+      function renderList() {
+        let str = "";
+        todos.forEach((item, index) => {
+          str += `
+                <li class="${item.done ? "check" : ""}">
+                    <span class="item">
+                      <i 
+                        onclick="checkTask(${index})" 
+                        class="${item.done ? "fa-solid fa-circle-check" : "fa-regular fa-circle"}" 
+                        style="${item.done ? "color: rgb(12, 165, 12)" : "color: gray"}">
+                      </i>
+                      <span id = "task">${item.task}</span>
+                      <input type="text" value="${item.task}" id = "updateTask">
+                    </span>
+                    <span id="edit">
+                      <span onclick="updateTask(${index})">✏️</span>
+                      <span onclick="deleteTask(${index})">🗑️</span>
+                    </span>
+                  </li>
+                `;
+        });
+        document.querySelector(".list").innerHTML = str;
+      }
+
+      todos = JSON.parse(localStorage.getItem("myTodos"));
+      renderList();
+      renderStatistics();
+
+      function checkTask(index) {
+        todos[index].done = !todos[index].done;
+        localStorage.setItem("myTodos", JSON.stringify(todos));
+
+        let li = document.querySelectorAll(".list li")[index];
+        li.classList.toggle("check");
+
+        let icon = li.querySelector("i");
+        icon.className = todos[index].done
+          ? "fa-solid fa-circle-check"
+          : "fa-regular fa-circle";
+        icon.style.color = todos[index].done ? "rgb(12, 165, 12)" : "gray";
+
+        renderStatistics();
+      }
+
+      document
+        .getElementById("addTask")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            addTask();
+          }
+        });
+
+      function updateTask(index) {
+        document.querySelectorAll(".list li").forEach((li) => {
+          li.classList.remove("updating");
+        });
+
+        let li = document.querySelectorAll(".list li")[index];
+        li.classList.toggle("updating");
+        let input = li.querySelector("#updateTask");
+        input.focus();
+        input.select();
+
+        input.onkeydown = function (e) {
+          if (e.key === "Enter") {
+            todos[index].task = input.value.trim();
+            localStorage.setItem("myTodos", JSON.stringify(todos));
+            renderList();
+          }
+          if (e.key === "Escape") {
+            li.classList.remove("updating");
+            input.value = todos[index].task;
+          }
+        };
+
+        renderStatistics();
+      }
+
+      function addTask() {
+        if (document.getElementById("addTask").value.trim() === "") {
+          alert("Tên không được để trống!");
+          return;
+        }
+
+        let task = document.getElementById("addTask").value;
+        let newTask = {
+          id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+          task: task,
+          done: false,
+        };
+
+        todos.push(newTask);
+        localStorage.setItem("myTodos", JSON.stringify(todos));
+        renderList();
+        document.getElementById("addTask").value = "";
+        document.getElementById("addTask").focus();
+
+        renderStatistics();
+      }
+
+      function deleteTask(index) {
+        let deleteConfirm = confirm(`
+      Bạn có chắc muốn xóa công việc
+      "${todos[index].task}" ?
+              `);
+        if (!deleteConfirm) {
+          return;
+        }
+        todos.splice(index, 1);
+        localStorage.setItem("myTodos", JSON.stringify(todos));
+        renderList();
+        renderStatistics();
+      }
+
+      function clearTask() {
+        localStorage.clear();
+        todos = [];
+        renderList();
+        renderStatistics();
+        localStorage.setItem("myTodos", JSON.stringify(todos));
+      }
+    </script>
+  </body>
+</html>
